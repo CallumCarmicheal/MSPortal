@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-    import { Vue } from 'vue-class-component/dist/vue-class-component.cjs';
+    import { Vue } from 'vue-class-component';
 
     if (Vue === undefined) 
         throw new Error("Vue is null!");
