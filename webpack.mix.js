@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+const path = require('path');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +12,47 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+ mix.alias({
+    '@':    path.join(__dirname, 'resources/js'),
+    'ext':  path.resolve('node_modules'),
+})
+
+
+function typescriptSettings() {
+    mix
+        .ts('resources/js/app.ts', 'public/js').vue()
+        .postCss('resources/css/app.css', 'public/css', [
+            require('postcss-import'),
+            require('tailwindcss'),
+            require('autoprefixer'),
+        ])
+        .webpackConfig(require('./webpack.config'));
+
+    if (mix.inProduction()) {
+        mix.version();
+    }
+
+    return;
+
+    const config = require('./webpack.config');
+
+    mix
+        .vue('resources/js/app.ts', 'public/js', {typescript: true})
+        .postCss('resources/css/app.css', 'public/css', [
+            require('postcss-import'),
+            require('tailwindcss'),
+            require('autoprefixer'),
+        ])
+        .sourceMaps()
+        .webpackConfig(config);
+
+    if (process.env.NODE_ENV === 'production') {
+        mix.purgeCss();
+    }
+
+    if (process.env.npm_lifecycle_event !== 'hot') {
+        mix.version();
+    }
+}
+
+typescriptSettings();

@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "es2015",
+        "strict": false,
+        "strictNullChecks": false,
+        "noImplicitReturns": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/js/*"],
+            "~/*": ["./*"]
+        }
+    },
+    "include": [
+        "resources/js/**/*",
+        "./*.js"
+    ],
+    "files": [
+        "resources/js/vue-shims.d.ts",
+        "resources/js/inertia-shims.d.ts"
+    ]
+}
